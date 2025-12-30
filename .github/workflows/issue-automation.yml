@@ -1,0 +1,53 @@
+name: Issue Automation
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  format-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Format Issue Title and Add Labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || '';
+            
+            // Parse form data
+            const platformMatch = body.match(/### 플랫폼\s*\n\s*(.+)/);
+            const tierMatch = body.match(/### 티어\s*\n\s*(.+)/);
+            const problemNumberMatch = body.match(/### 문제 번호\s*\n\s*(.+)/);
+            const levelMatch = body.match(/### Level\s*\n\s*(.+)/);
+            const titleMatch = body.match(/### 문제 이름\s*\n\s*(.+)/);
+            
+            const platform = platformMatch ? platformMatch[1].trim() : '';
+            const tier = tierMatch ? tierMatch[1].trim() : '';
+            const problemNumber = problemNumberMatch ? problemNumberMatch[1].trim() : '';
+            const level = levelMatch ? levelMatch[1].trim() : '';
+            const problemTitle = titleMatch ? titleMatch[1].trim() : '';
+            
+            // Build new title based on platform
+            let newTitle = '';
+            if (platform === 'Baekjoon' && tier && problemNumber) {
+              newTitle = `${platform} ${tier} ${problemNumber}`;
+            } else if (platform === 'Programmers' && level && problemTitle) {
+              newTitle = `${platform} LV${level} - ${problemTitle}`;
+            } else {
+              // Fallback if data is incomplete
+              newTitle = `${platform}`;
+            }
+            
+            // Update issue title only (preserve existing labels as-is)
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              title: newTitle
+            });
+            
+            console.log(`Updated issue #${issue.number}`);
+            console.log(`New title: ${newTitle}`);

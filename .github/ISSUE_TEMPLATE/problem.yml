@@ -1,0 +1,49 @@
+name: Problem
+description: Open an issue before you start solving a problem
+title: "[문제] 제목이 자동으로 설정됩니다"
+labels: ["problem"]
+body:
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 플랫폼
+      description: 문제 플랫폼 선택
+      options:
+        - Baekjoon
+        - Programmers
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: 티어
+      description: Baekjoon 선택 시 티어를 선택하세요
+      options:
+        - 브론즈
+        - 실버
+        - 골드
+        - 플레
+
+  - type: input
+    id: problem_number
+    attributes:
+      label: 문제 번호
+      description: Baekjoon 선택 시 문제 번호를 입력하세요
+      placeholder: "1000"
+
+  - type: input
+    id: level
+    attributes:
+      label: Level
+      description: Programmers 선택 시 레벨(0~5)을 입력하세요
+      placeholder: "0"
+
+  - type: input
+    id: title
+    attributes:
+      label: 문제 이름
+      description: Programmers 선택 시 문제 이름을 입력하세요
+      placeholder: "문제 이름"
+
