@@ -47,3 +47,10 @@ body:
       description: Programmers 선택 시 문제 이름을 입력하세요
       placeholder: "문제 이름"
 
+  - type: textarea
+    id: remarks
+    attributes:
+      label: 비고
+      description: 추가 정보나 메모를 입력하세요
+      placeholder: "비고 사항을 입력하세요 (선택사항)"
+
