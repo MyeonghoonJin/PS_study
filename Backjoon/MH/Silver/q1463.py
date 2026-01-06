@@ -7,7 +7,7 @@ nextqueue = set()
 prevqueue.add(n)
 depth = 0
 
-while visited not in [1]:
+while True:
     for num in prevqueue:
         if num == 1:
             print(depth)
