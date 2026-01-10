@@ -18,7 +18,7 @@ def backtracking(current_perm,visited,nums):
         print()
         return
     # 순회
-    for i in range(len(nums)):
+    for i in range(n):
         if not visited[i]:
             visited[i] = True
             current_perm.append(nums[i])
