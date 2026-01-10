@@ -21,7 +21,7 @@ for _ in range(T):
   
     for i in range(n + 1):
         if i >= 2:
-
+    
             fib0Arr[i] = fib0Arr[i - 1] + fib0Arr[i - 2]
             fib1Arr[i] = fib1Arr[i - 1] + fib1Arr[i - 2]
 
