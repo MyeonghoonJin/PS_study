@@ -1,37 +1,43 @@
 """
 게임 - 실버3
 """
-import sys
-n,m = map(int,input().split())
 
-rate = int(m / n * 100)
+def solve():
+    x, y = map(int, input().split())
+    z = y * 100 // x
 
-r = 10**10
-l = 0
-mid = (r + l) // 2
-
-if rate >= 99:
-    print(-1)
-    sys.exit()
-
-while r >= l:
-    mid = (r + l) // 2
-    # 승률이 2퍼이상 오른 경우
-    if rate + 1 < int((m + mid) / (n + mid) * 100):
-        r = mid - 1
-    # 승률이 오르지 않은 경우
-    elif rate == int((m + mid) / (n + mid) * 100):
-        l = mid + 1
-    # 승률이 1퍼만 오른 경우
-    else:
-        if mid == 0:
-            r += 1
-            mid += 1
-        # 최솟값이 아닌 경우 -> 축소 필요
-        elif rate + 1 == int((m + mid - 1) / (n + mid - 1) * 100):
+    if z >= 99:
+        print(-1)
+        return
+    # n만큼 더 했을 경우 승률이 올라가는지 확인
+    def isLarger(n):
+        if (y + n) * 100 // (x + n) > z:
+            return True
+        else:
+            return False
+    search_range = 1
+    # n에 2를 곱해 승률이 올라가는 n을 빠르게 찾음
+    while True:
+        if isLarger(search_range):
+            break
+        else:
+            search_range *= 2
+    # n이 아무리 커도 이진 탐색을 하면 시간 초과는 뜰 수가 없음
+    l = 0
+    r = search_range
+    mid = 0
+    while l <= r:
+        mid = (l + r) // 2
+        # 정답 조건
+        if mid == 0 or (isLarger(mid) and not isLarger(mid - 1)):
+            break
+        if isLarger(mid):
             r = mid - 1
-        # 바로 직전값까지 승률이 0퍼 상승인 경우
-        elif rate == int((m + mid - 1) / (n + mid - 1) * 100):
-            print(mid)
-            sys.exit()
-print(mid)
+        else:
+            l = mid + 1
+    # 정답이 0일 수 없으므로 mid가 0인 경우는 반드시 1임
+    print(mid if mid != 0 else 1)
+
+
+if __name__ == '__main__':
+    solve()
